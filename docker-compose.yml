@@ -1,0 +1,125 @@
+services:
+  # PostgreSQL Database
+  database:
+    image: postgres:15-alpine
+    container_name: booksrendezvous-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-bibliotheque}
+      POSTGRES_USER: ${DB_USER:-bibliotheque_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-bibliotheque_password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/database/init:/docker-entrypoint-initdb.d
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    networks:
+      - booksrendezvous-network
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${DB_USER:-bibliotheque_user} -d ${DB_NAME:-bibliotheque}",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Go Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: booksrendezvous-backend
+    restart: unless-stopped
+    ports:
+      - "${BACKEND_PORT:-6050}:6050"
+    environment:
+      - DB_HOST=database
+      - DB_PORT=5432
+      - DB_NAME=${DB_NAME:-bibliotheque}
+      - DB_USER=${DB_USER:-bibliotheque_user}
+      - DB_PASSWORD=${DB_PASSWORD:-bibliotheque_password}
+      - SERVER_PORT=:6050
+      - FRONTEND_URL=${FRONTEND_URL:-http://localhost:3000}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - booksrendezvous-network
+    volumes:
+      - ./backend/data:/root/data:ro
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-verbose",
+          "--tries=1",
+          "--spider",
+          "http://localhost:6050/health",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Nuxt.js Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: booksrendezvous-frontend
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    environment:
+      - NUXT_PUBLIC_BACKEND_URL=${BACKEND_URL:-http://localhost:6050}
+      - NUXT_PUBLIC_BASE_URL=${BASE_URL:-http://localhost:3000}
+      - NUXT_HOST=0.0.0.0
+      - NUXT_PORT=3000
+    depends_on:
+      - backend
+    networks:
+      - booksrendezvous-network
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-verbose",
+          "--tries=1",
+          "--spider",
+          "http://localhost:3000",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Optional: Redis for caching
+  redis:
+    image: redis:7-alpine
+    container_name: booksrendezvous-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - booksrendezvous-network
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  booksrendezvous-network:
+    driver: bridge

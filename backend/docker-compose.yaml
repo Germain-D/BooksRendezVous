@@ -1,0 +1,39 @@
+services:
+  # Service pour l'application Go
+  biblio:
+    image: biblio
+    build:
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    networks:
+      - web  # Pour communication avec Traefik
+      - albus-network  # Pour communication avec la base de données
+    labels:
+      - "traefik.enable=true"
+      
+     # - "traefik.http.routers.albusauth.middlewares=cors2"
+     # - "traefik.http.middlewares.cors3.headers.accesscontrolallowmethods=GET,OPTIONS,PUT,POST,DELETE,PATCH"
+     # - "traefik.http.middlewares.cors3.headers.accesscontrolallowheaders=Content-Type,Authorization,X-Requested-With"
+    #  - "traefik.http.middlewares.cors3.headers.accesscontrolallowcredentials=true"
+     # - "traefik.http.middlewares.cors2.headers.accesscontrolalloworiginlist=https://demo-ialbus-frontend.pages.dev"
+    #  - "traefik.http.middlewares.cors3.headers.accesscontrolmaxage=100"
+    #  - "traefik.http.middlewares.cors3.headers.addvaryheader=true"
+
+
+
+    #  - "traefik.http.middlewares.cors3.headers.accesscontrolalloworiginlist=https://bibliotheque-5bt.pages.dev"
+      - "traefik.http.routers.biblio.rule=Host(`biblio.srv630927.hstgr.cloud`)"
+    #  - "traefik.http.routers.biblio.middlewares=cors3"
+      - "traefik.http.routers.biblio.entrypoints=websecure"
+      - "traefik.http.routers.biblio.tls.certresolver=myresolver"
+      - "traefik.http.services.biblio.loadbalancer.server.port=6050"
+
+networks:
+  web:
+    external: true
+  albus-network:
+    external: true  # Pour la base de données
+
+
+## BIEN VERIFIER QUE DANS TRAEFIK:       - "--providers.docker.network=web"

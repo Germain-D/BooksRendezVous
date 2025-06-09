@@ -1,0 +1,18 @@
+services:
+  # Development overrides
+  backend:
+    volumes:
+      - ./backend:/app
+      - /app/vendor
+    environment:
+      - LOG_LEVEL=debug
+    command: go run main.go
+
+  frontend:
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.nuxt
+    environment:
+      - NODE_ENV=development
+    command: npm run dev

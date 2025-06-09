@@ -1,0 +1,122 @@
+{
+    "achievements": [
+        {
+            "name": "Premier livre",
+            "description": "Ajouter son premier livre à la bibliothèque",
+            "type": "badge",
+            "targetValue": 1,
+            "targetStat": "TotalBooks",
+            "isHidden": false,
+            "category": "Bibliothèque"
+        },
+        {
+            "name": "Apprenti lecteur",
+            "description": "Lire 100 pages",
+            "type": "milestone",
+            "targetValue": 100,
+            "targetStat": "TotalPages",
+            "isHidden": false,
+            "category": "Lecture"
+        },
+        {
+            "name": "Marathonien des pages",
+            "description": "Atteindre 1000 pages lues",
+            "type": "milestone",
+            "targetValue": 1000,
+            "targetStat": "TotalPages",
+            "isHidden": false,
+            "category": "Lecture"
+        },
+        {
+            "name": "Biblio-vétéran",
+            "description": "Lire 10000 pages",
+            "type": "milestone",
+            "targetValue": 10000,
+            "targetStat": "TotalPages",
+            "isHidden": true,
+            "category": "Lecture"
+        },
+        {
+            "name": "Collectionneur",
+            "description": "Ajouter 10 livres à sa bibliothèque",
+            "type": "counter",
+            "targetValue": 10,
+            "targetStat": "TotalBooks",
+            "isHidden": false,
+            "category": "Bibliothèque"
+        },
+        {
+            "name": "Critique émérite",
+            "description": "Donner une note à 5 livres différents",
+            "type": "counter",
+            "targetValue": 5,
+            "isHidden": true,
+            "category": "Interaction"
+        },
+        {
+            "name": "Perfectionniste",
+            "description": "Donner une note de 5 étoiles à un livre",
+            "type": "badge",
+            "targetValue": 1,
+            "isHidden": true,
+            "category": "Interaction"
+        },
+        {
+            "name": "Le goût des bonnes choses",
+            "description": "Donner une note de 1 étoile à un livre",
+            "type": "badge",
+            "targetValue": 1,
+            "isHidden": true,
+            "category": "Interaction"
+        },
+        {
+            "name": "Explorateur littéraire",
+            "description": "Lire des livres dans 5 genres différents",
+            "type": "counter",
+            "targetValue": 5,
+            "isHidden": true,
+            "category": "Diversité"
+        },
+        {
+            "name": "Dévoreur de livres",
+            "description": "Terminer 10 livres",
+            "type": "counter",
+            "targetValue": 10,
+            "targetStat": "CompletedBooks",
+            "isHidden": false,
+            "category": "Lecture"
+        },
+        {
+            "name": "Doom lector",
+            "description": "Terminer 100 livres",
+            "type": "counter",
+            "targetValue": 100,
+            "targetStat": "CompletedBooks",
+            "isHidden": true,
+            "category": "Lecture"
+        },
+        {
+            "name": "My Favorite",
+            "description": "Ajouter un livre à ses favoris",
+            "type": "badge",
+            "targetValue": 1,
+            "targetStat": "FavoriteBooks",
+            "isHidden": false,
+            "category": "Interaction"
+        },
+        {
+            "name": "Poly Amour",
+            "description": "Ajouter 5 livres à ses favoris",
+            "type": "counter",
+            "targetValue": 5,
+            "targetStat": "FavoriteBooks",
+            "isHidden": false,
+            "category": "Interaction"
+        }
+    ],
+    "meta": {
+        "version": "1.0.0",
+        "lastUpdated": "2024-01-01T00:00:00Z",
+        "totalAchievements": 11
+    }
+}
