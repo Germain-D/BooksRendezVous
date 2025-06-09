@@ -184,6 +184,10 @@ The backend provides a REST API with the following main endpoints:
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
+## 🙏 Credits
+
+This project was inspired by and built upon the work of [@yoanbernabeu](https://github.com/yoanbernabeu), particularly the [lectures repository](https://github.com/yoanbernabeu/lectures). The overall architecture and approach were influenced by his excellent work on book and reading management applications.
+
 ## 📝 License
 
 This project is open source and available under the [MIT License](LICENSE).
